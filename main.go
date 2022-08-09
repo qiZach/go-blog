@@ -1,11 +1,11 @@
 package main
 
 import (
-	"encoding/json"
+	"go-blog/config"
+	"go-blog/models"
 	"html/template"
 	"log"
 	"net/http"
-	"os"
 )
 
 type IndexData struct {
@@ -14,22 +14,49 @@ type IndexData struct {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var indexData IndexData
-	indexData.Title = "码神之路开启，Go Blog"
-	indexData.Desc = "盘古开天辟地"
-	bytes, _ := json.Marshal(indexData)
-	w.Write(bytes)
-}
-
-func indexHtml(w http.ResponseWriter, r *http.Request) {
-	var indexData IndexData
-	indexData.Title = "码神之路开启，Go Blog"
-	indexData.Desc = "盘古开天辟地"
 	t := template.New("index.html")
-	path, _ := os.Getwd()
-	t, _ = t.ParseFiles(path + "/template/index.html")
-	t.Execute(w, indexData)
+	path := config.Cfg.System.CurrentDir
+	index := path + "/template/index.html"
+	home := path + "/template/home.html"
+	header := path + "/template/layout/header.html"
+	footer := path + "/template/layout/footer.html"
+	personal := path + "/template/layout/personal.html"
+	post := path + "/template/layout/post-list.html"
+	pagination := path + "/template/layout/pagination.html"
+	t, err := t.ParseFiles(index, home, header, footer, personal, post, pagination)
+	if err != nil {
+		log.Println(err)
+	}
+	//页面上涉及到的所有的数据，必须有定义
+	var categorys = []models.Category{
+		{
+			Cid:  1,
+			Name: "go",
+		},
+	}
+	var posts = []models.PostMore{
+		{
+			Pid:          1,
+			Title:        "go博客",
+			Content:      "内容",
+			UserName:     "码神",
+			ViewCount:    123,
+			CreateAt:     "2022-02-20",
+			CategoryId:   1,
+			CategoryName: "go",
+			Type:         0,
+		},
+	}
+	var hr = &models.HomeResponse{
+		config.Cfg.Viewer,
+		categorys,
+		posts,
+		1,
+		1,
+		[]int{1},
+		true,
+	}
+	t.Execute(w, hr)
 }
 
 func main() {
@@ -39,7 +66,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", index)
-	http.HandleFunc("/index.html", indexHtml)
+
 	if err := server.ListenAndServe(); err != nil {
 		log.Println(err)
 	}
