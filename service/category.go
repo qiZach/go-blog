@@ -7,15 +7,17 @@ import (
 	"html/template"
 )
 
-func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
+func GetPostsByCategoryId(cId, page, pageSize int) (*models.CategoryResponse, error) {
+	// 填装页面的分类列表
 	categories, err := dao.GetAllCategory()
 	if err != nil {
 		return nil, err
 	}
-	posts, err := dao.GetPostPage(page, pageSize)
+	categoryName := dao.GetCategoryNameById(cId)
+	// 根据分类查询post文章
+	posts, err := dao.GetPostPageByCategoryId(cId, page, pageSize)
 	var postMores []models.PostMore
 	for _, post := range posts {
-		categoryName := dao.GetCategoryNameById(post.CategoryId)
 		userName := dao.GetUserNameById(post.UserId)
 		content := []rune(post.Content)
 		if len(content) > 100 {
@@ -39,7 +41,7 @@ func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
 	}
 
 	// pages = (n-1)/10 + 1
-	total := dao.CountGetAllPost()
+	total := dao.CountGetCategoryPost(cId)
 	pagesCount := (total-1)/10 + 1
 	var pages []int
 	for i := 0; i < pagesCount; i++ {
@@ -55,5 +57,10 @@ func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
 		Pages:      pages, // 显示第几页
 		PageEnd:    page != pagesCount,
 	}
-	return hr, nil
+
+	var cr = &models.CategoryResponse{
+		HomeResponse: hr,
+		CategoryName: categoryName,
+	}
+	return cr, nil
 }

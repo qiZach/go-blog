@@ -5,12 +5,8 @@
     {{if gt .Page 1}}
     <li class="pagination-prev iconfont icon-jiantouyou"></li>
     {{end}} {{range $index, $elem := .Pages}}
-    <li
-      class="pagination-btn"
-      {{if
-      eq
-      $elem
-      $.Page}}
+    <li class="pagination-btn"
+      {{if eq $elem $.Page}}
       active
       {{end}}
       value="{{$elem}}"
