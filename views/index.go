@@ -1,10 +1,12 @@
 package views
 
 import (
+	"errors"
 	"go-blog/common"
-	"go-blog/config"
-	"go-blog/models"
+	"go-blog/service"
+	"log"
 	"net/http"
+	"strconv"
 )
 
 func (*HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
@@ -12,34 +14,22 @@ func (*HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
 	index := common.Template.Index
 	// 页面上涉及到的所有的数据，必须有定义，给页面填入数据
 	// 数据库查询
-	var categories = []models.Category{
-		{
-			Cid:  1,
-			Name: "go",
-		},
+	if err := r.ParseForm(); err != nil {
+		log.Println("表单获取失败: ", err)
+		index.WriteError(w, errors.New("系统错误，请联系管理员"))
+		return
 	}
-	var posts = []models.PostMore{
-		{
-			Pid:          1,
-			Title:        "go博客",
-			Content:      "内容",
-			UserName:     "张思祺",
-			ViewCount:    123,
-			CreateAt:     "2022-09-02",
-			CategoryId:   1,
-			CategoryName: "go",
-			Type:         0,
-		},
+	pageStr := r.Form.Get("page")
+	page := 1
+	if pageStr != "" {
+		page, _ = strconv.Atoi(pageStr)
 	}
-	// 需要写入页面的数据
-	var hr = &models.HomeResponse{
-		Viewer:     config.Cfg.Viewer,
-		Categories: categories,
-		Posts:      posts,
-		Total:      1,
-		Page:       1,
-		Pages:      []int{1},
-		PageEnd:    true,
+	// 每页显示的数量
+	pageSize := 10
+	hr, err := service.GetAllIndexInfo(page, pageSize)
+	if err != nil {
+		log.Println("Index获取数据出错: ", err)
+		index.WriteError(w, errors.New("系统错误，请联系管理员"))
 	}
 	// 返回，发送至浏览器解析
 	index.WriteData(w, hr)

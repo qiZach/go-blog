@@ -2,6 +2,7 @@ package models
 
 import (
 	"io"
+	"log"
 	"time"
 )
 
@@ -23,6 +24,19 @@ func DateDay(date time.Time) string {
 func (t *TemplateBlog) WriteData(w io.Writer, data interface{}) {
 	err := t.Execute(w, data)
 	if err != nil {
-		w.Write([]byte("Error."))
+		_, err := w.Write([]byte(err.Error()))
+		if err != nil {
+			log.Println(err)
+		}
+	}
+}
+
+func (t *TemplateBlog) WriteError(w io.Writer, err error) {
+	if err != nil {
+		_, err := w.Write([]byte(err.Error()))
+		if err != nil {
+			log.Println(err)
+			return
+		}
 	}
 }
