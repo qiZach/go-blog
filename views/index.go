@@ -8,8 +8,9 @@ import (
 )
 
 func (*HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
+	// 拿到Index页面
 	index := common.Template.Index
-	//页面上涉及到的所有的数据，必须有定义
+	// 页面上涉及到的所有的数据，必须有定义，给页面填入数据
 	var categories = []models.Category{
 		{
 			Cid:  1,
@@ -29,6 +30,7 @@ func (*HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
 			Type:         0,
 		},
 	}
+	// 需要写入页面的数据
 	var hr = &models.HomeResponse{
 		Viewer:     config.Cfg.Viewer,
 		Categories: categories,
@@ -38,5 +40,6 @@ func (*HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
 		Pages:      []int{1},
 		PageEnd:    true,
 	}
+	// 返回，发送至浏览器解析
 	index.WriteData(w, hr)
 }

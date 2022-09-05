@@ -17,6 +17,7 @@ type Viewer struct {
 	Logo        string
 	Navigation  []string
 	Bilibili    string
+	Github      string
 	Avatar      string
 	UserName    string
 	UserDesc    string

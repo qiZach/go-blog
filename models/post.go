@@ -31,8 +31,8 @@ type PostMore struct {
 	UserName     string        `json:"userName"`     // 用户名
 	ViewCount    int           `json:"viewCount"`    // 查看次数
 	Type         int           `json:"type"`         // 文章类型 0 普通，1 自定义文章
-	CreateAt     string        `json:"createAt"`
-	UpdateAt     string        `json:"updateAt"`
+	CreateAt     string        `json:"createAt"`     // 创建时间
+	UpdateAt     string        `json:"updateAt"`     // 更新时间
 }
 
 type PostReq struct {

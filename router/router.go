@@ -3,7 +3,6 @@ package router
 import (
 	"go-blog/api"
 	"go-blog/views"
-
 	"net/http"
 )
 
@@ -13,8 +12,10 @@ type IndexData struct {
 }
 
 func Router() {
-	// 1.页面 2.数据(json) 3.静态资源
+	// 返回三种类型： 1.页面  2.  api数据(json) 3.静态资源
+	// views.HTML.Index 为处理函数
 	http.HandleFunc("/", views.HTML.Index)
+	// 处理Post请求
 	http.HandleFunc("/api/v1/post", api.API.SaveAndUpdatePost)
 
 	// 启动静态文件服务
