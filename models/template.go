@@ -19,13 +19,16 @@ type HtmlTemplate struct {
 	Writing    TemplateBlog
 }
 
-func InitTemplate(templateDir string) HtmlTemplate {
-	tp := readTemplate(
+func InitTemplate(templateDir string) (HtmlTemplate, error) {
+	tp, err := readTemplate(
 		[]string{"index", "category", "custom", "detail", "login", "pigeonhole", "writing"},
 		templateDir,
 	)
 	// 拿到以上所有页面的解析
 	var htmlTemplate HtmlTemplate
+	if err != nil {
+		return htmlTemplate, err
+	}
 	htmlTemplate.Index = tp[0]
 	htmlTemplate.Category = tp[1]
 	htmlTemplate.Custom = tp[2]
@@ -33,11 +36,11 @@ func InitTemplate(templateDir string) HtmlTemplate {
 	htmlTemplate.Login = tp[4]
 	htmlTemplate.Pigeonhole = tp[5]
 	htmlTemplate.Writing = tp[6]
-	return htmlTemplate
+	return htmlTemplate, nil
 
 }
 
-func readTemplate(templates []string, templateDir string) []TemplateBlog {
+func readTemplate(templates []string, templateDir string) ([]TemplateBlog, error) {
 
 	var tbs []TemplateBlog
 
@@ -58,6 +61,7 @@ func readTemplate(templates []string, templateDir string) []TemplateBlog {
 		t, err := t.ParseFiles(templateDir+viewName, home, header, footer, personal, post, pagination)
 		if err != nil {
 			log.Println("配置模板出错： ", err)
+			return nil, err
 		}
 		// 创建一个TemplateBlog, 一个页面
 		var tb TemplateBlog
@@ -66,5 +70,5 @@ func readTemplate(templates []string, templateDir string) []TemplateBlog {
 		// 添加到数组末位
 		tbs = append(tbs, tb)
 	}
-	return tbs
+	return tbs, nil
 }
