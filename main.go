@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"go-blog/common"
 	"go-blog/router"
 	"log"
@@ -12,10 +13,14 @@ func init() {
 	common.LoadTemplate()
 }
 
+//go:embed public/resource/*
+//go:embed template/*
+var f embed.FS
+
 func main() {
 
 	server := http.Server{
-		Addr: "0.0.0.0:8080",
+		Addr: "127.0.0.1:8080",
 	}
 	router.Router()
 

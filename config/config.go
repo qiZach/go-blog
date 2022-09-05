@@ -1,6 +1,8 @@
 package config
 
 import (
+	"embed"
+	_ "embed"
 	"github.com/BurntSushi/toml"
 	"log"
 	"os"
@@ -36,6 +38,9 @@ type SystemConfig struct {
 }
 
 var Cfg *tomlConfig
+
+//go:embed config.toml
+var f embed.FS
 
 func init() {
 	// 程序启动时，就会执行init方法
