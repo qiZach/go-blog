@@ -5,7 +5,7 @@ Logo = "/resource/images/logo.png"
 Navigation = ["首页","/", "GO语言","/golang", "归档","/pigeonhole", "关于","/about"]
 Bilibili = "https://space.bilibili.com/4204570"
 Zhihu = "https://www.zhihu.com/people/meng-zi-97"
-Avatar = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_bt%2F0%2F13147603927%2F1000.jpg&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1647242040&t=c6108010ed46b4acebe18955acdd2d24"
+Avatar = "http://n.sinaimg.cn/front/530/w700h630/20181209/9X84-hprknvt9518232.jpg"
 UserName = "张思祺"
 UserDesc = "长得非常帅的程序员"
 [system]
