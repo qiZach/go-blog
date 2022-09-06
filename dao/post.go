@@ -2,6 +2,31 @@ package dao
 
 import "go-blog/models"
 
+func GetPostById(pId int) (models.Post, error) {
+	row := DB.QueryRow("select * from blog_post where pid = ?", pId)
+	var post models.Post
+	if row.Err() != nil {
+		return post, row.Err()
+	}
+	err := row.Scan(
+		&post.Pid,
+		&post.Title,
+		&post.Content,
+		&post.Markdown,
+		&post.CategoryId,
+		&post.UserId,
+		&post.ViewCount,
+		&post.Type,
+		&post.Slug,
+		&post.CreateAt,
+		&post.UpdateAt,
+	)
+	if err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
 func CountGetCategoryPost(cId int) (count int) {
 	rows := DB.QueryRow("select count(1) from blog_post where category_id = ?", cId)
 	_ = rows.Scan(&count)

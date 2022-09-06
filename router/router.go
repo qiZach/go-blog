@@ -17,6 +17,12 @@ func Router() {
 	http.HandleFunc("/", views.HTML.Index)
 	// 按照分类返回文章
 	http.HandleFunc("/c/", views.HTML.Category)
+	// 展示文章详情
+	http.HandleFunc("/p/", views.HTML.PostDetail)
+	// 加载登录页面
+	http.HandleFunc("/login", views.HTML.Login)
+	// 处理登录请求
+	http.HandleFunc("/api/v1/login", api.API.Login)
 	// 处理Post请求
 	http.HandleFunc("/api/v1/post", api.API.SaveAndUpdatePost)
 
