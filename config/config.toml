@@ -1,5 +1,5 @@
 [server]
-Ip = "127.0.0.1"
+Ip = "0.0.0.0"
 Port = "8080"
 [viewer]
 Title = "Go语言博客"
