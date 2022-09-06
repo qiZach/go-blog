@@ -21,7 +21,7 @@ func (*HTMLApi) Index(w http.ResponseWriter, r *http.Request) {
 	}
 	pageStr := r.Form.Get("page")
 	if pageStr == "" {
-		pageStr = ""
+		pageStr = "1"
 	}
 	page, _ := strconv.Atoi(pageStr)
 	// 每页显示的数量
