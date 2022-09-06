@@ -2,12 +2,15 @@ package views
 
 import (
 	"go-blog/common"
-	"go-blog/config"
+	"go-blog/service"
 	"net/http"
 )
 
 func (*HTMLApi) Pigeonhole(w http.ResponseWriter, r *http.Request) {
+	// 加载页面
 	pigeonhole := common.Template.Pigeonhole
-
-	pigeonhole.WriteData(w, config.Cfg.Viewer)
+	// 进行归档
+	pigeonholeRes := service.FindPostPigeonhole()
+	// 写回数据
+	pigeonhole.WriteData(w, pigeonholeRes)
 }

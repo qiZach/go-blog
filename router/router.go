@@ -24,7 +24,7 @@ func Router() {
 	// 加载写作页面
 	http.HandleFunc("/writing", views.HTML.Writing)
 	// 加载归档页面
-	http.HandleFunc("/writing", views.HTML.Pigeonhole)
+	http.HandleFunc("/pigeonhole", views.HTML.Pigeonhole)
 
 	// 处理登录请求
 	http.HandleFunc("/api/v1/login", api.API.Login)
