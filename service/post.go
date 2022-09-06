@@ -5,7 +5,16 @@ import (
 	"go-blog/dao"
 	"go-blog/models"
 	"html/template"
+	"log"
 )
+
+func UpdatePost(post *models.Post) {
+	dao.UpdatePost(post)
+}
+
+func SavePost(post *models.Post) {
+	dao.SavePost(post)
+}
 
 func GetPostDetail(pId int) (*models.PostRes, error) {
 	// 通过dao拿到文章详情
@@ -36,4 +45,16 @@ func GetPostDetail(pId int) (*models.PostRes, error) {
 		Article:      postMore,
 	}
 	return postRes, nil
+}
+
+func Writing() (wr models.WritingRes) {
+	wr.Title = config.Cfg.Viewer.Title
+	wr.CdnURL = config.Cfg.System.CdnURL
+	categories, err := dao.GetAllCategory()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	wr.Categorys = categories
+	return
 }
