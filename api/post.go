@@ -13,6 +13,13 @@ import (
 	"time"
 )
 
+func (*Api) SearchPost(w http.ResponseWriter, r *http.Request) {
+	_ = r.ParseForm()
+	condition := r.Form.Get("val")
+	searchResp := service.SearchPost(condition)
+	common.Success(w, searchResp)
+}
+
 func (*Api) GetPost(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	pIdStr := strings.TrimPrefix(path, "/api/v1/post/")
@@ -89,5 +96,4 @@ func (*Api) SaveAndUpdatePost(w http.ResponseWriter, r *http.Request) {
 		service.UpdatePost(post)
 		common.Success(w, post)
 	}
-
 }

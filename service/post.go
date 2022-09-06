@@ -8,6 +8,18 @@ import (
 	"log"
 )
 
+func SearchPost(condition string) []models.SearchResp {
+	posts, _ := dao.GetPostSearch(condition)
+	var searchResp []models.SearchResp
+	for _, post := range posts {
+		searchResp = append(searchResp, models.SearchResp{
+			Pid:   post.Pid,
+			Title: post.Title,
+		})
+	}
+	return searchResp
+}
+
 func UpdatePost(post *models.Post) {
 	dao.UpdatePost(post)
 }

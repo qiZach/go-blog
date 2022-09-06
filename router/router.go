@@ -32,6 +32,8 @@ func Router() {
 	http.HandleFunc("/api/v1/post", api.API.SaveAndUpdatePost)
 	// 根据pid 获取文章
 	http.HandleFunc("/api/v1/post/", api.API.GetPost)
+	// 根据搜索查询文章
+	http.HandleFunc("/api/v1/post/search", api.API.SearchPost)
 	//  获取qiniu token
 	http.HandleFunc("/api/v1/qiniu/token", api.API.QiniuToken)
 
