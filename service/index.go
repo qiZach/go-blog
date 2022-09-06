@@ -7,12 +7,20 @@ import (
 	"html/template"
 )
 
-func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
+func GetAllIndexInfo(slug string, page, pageSize int) (*models.HomeResponse, error) {
 	categories, err := dao.GetAllCategory()
 	if err != nil {
 		return nil, err
 	}
-	posts, err := dao.GetPostPage(page, pageSize)
+	var posts []models.Post
+	var total int
+	if slug == "" {
+		posts, err = dao.GetPostPage(page, pageSize)
+		total = dao.CountGetAllPost()
+	} else {
+		posts, err = dao.GetPostPageBySlug(slug, page, pageSize)
+		total = dao.CountGetAllPostBySlug(slug)
+	}
 	var postMores []models.PostMore
 	for _, post := range posts {
 		categoryName := dao.GetCategoryNameById(post.CategoryId)
@@ -39,7 +47,7 @@ func GetAllIndexInfo(page, pageSize int) (*models.HomeResponse, error) {
 	}
 
 	// pages = (n-1)/10 + 1
-	total := dao.CountGetAllPost()
+
 	pagesCount := (total-1)/10 + 1
 	var pages []int
 	for i := 0; i < pagesCount; i++ {
