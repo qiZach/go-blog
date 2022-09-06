@@ -7,8 +7,14 @@ import (
 )
 
 type tomlConfig struct {
+	Server Server
 	Viewer Viewer
 	System SystemConfig
+}
+
+type Server struct {
+	Ip   string
+	Port string
 }
 
 type Viewer struct {

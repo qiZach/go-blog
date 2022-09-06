@@ -74,29 +74,32 @@ func SavePost(post *models.Post) {
 	post.Pid = int(pid)
 }
 
-func GetPostById(pId int) (models.Post, error) {
-	row := DB.QueryRow("select * from blog_post where pid = ?", pId)
-	var post models.Post
-	if row.Err() != nil {
-		return post, row.Err()
-	}
-	err := row.Scan(
-		&post.Pid,
-		&post.Title,
-		&post.Content,
-		&post.Markdown,
-		&post.CategoryId,
-		&post.UserId,
-		&post.ViewCount,
-		&post.Type,
-		&post.Slug,
-		&post.CreateAt,
-		&post.UpdateAt,
-	)
-	if err != nil {
-		return post, err
-	}
-	return post, nil
+func GetPostById(pId int) (*models.Post, error) {
+	p := &models.Post{}
+	err := DB.QueryOne(p, "select * from blog_post where pid=?", pId)
+	return p, err
+	//row := DB.QueryRow("select * from blog_post where pid = ?", pId)
+	//var post models.Post
+	//if row.Err() != nil {
+	//	return post, row.Err()
+	//}
+	//err := row.Scan(
+	//	&post.Pid,
+	//	&post.Title,
+	//	&post.Content,
+	//	&post.Markdown,
+	//	&post.CategoryId,
+	//	&post.UserId,
+	//	&post.ViewCount,
+	//	&post.Type,
+	//	&post.Slug,
+	//	&post.CreateAt,
+	//	&post.UpdateAt,
+	//)
+	//if err != nil {
+	//	return post, err
+	//}
+	//return post, nil
 }
 
 func CountGetCategoryPost(cId int) (count int) {

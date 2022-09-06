@@ -73,7 +73,7 @@ func (*Api) SaveAndUpdatePost(w http.ResponseWriter, r *http.Request) {
 	// PUT update
 	case http.MethodPut:
 		params := common.GetRequestJsonParam(r)
-		cId := int(params["type"].(float64))
+		cId, _ := strconv.Atoi(params["categoryId"].(string))
 		content := params["content"].(string)
 		markdown := params["markdown"].(string)
 		slug := params["slug"].(string)

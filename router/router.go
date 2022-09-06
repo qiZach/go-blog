@@ -6,11 +6,6 @@ import (
 	"net/http"
 )
 
-type IndexData struct {
-	Title string `json:"title"`
-	Desc  string `json:"desc"`
-}
-
 func Router() {
 	// 返回三种类型： 1.页面  2.  api数据(json) 3.静态资源
 	// 返回主页，并加载主页文章 views.HTML.Index 为处理函数
