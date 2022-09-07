@@ -1,6 +1,6 @@
 [server]
 Ip = "0.0.0.0"
-Port = "8080"
+Port = "80"
 [viewer]
 Title = "Go语言博客"
 Description = "Go语言博客"
