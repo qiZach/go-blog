@@ -77,6 +77,8 @@ func SavePost(post *models.Post) {
 func GetPostById(pId int) (*models.Post, error) {
 	p := &models.Post{}
 	err := DB.QueryOne(p, "select * from blog_post where pid=?", pId)
+	// 查询一次更新计数
+	_, err = DB.Exec("update blog_post set view_count=view_count+1 where pid=?", p.Pid)
 	return p, err
 	//row := DB.QueryRow("select * from blog_post where pid = ?", pId)
 	//var post models.Post

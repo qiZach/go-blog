@@ -14,7 +14,7 @@ func (*HTMLApi) PostDetail(w http.ResponseWriter, r *http.Request) {
 	detail := common.Template.Detail
 	// http://localhost:8080/p/1    1是参数，文章id
 	path := r.URL.Path
-	pIdStr := strings.TrimSuffix(strings.TrimPrefix(path, "/p/"), ".html")
+	pIdStr := strings.TrimPrefix(path, "/p/")
 	pId, err := strconv.Atoi(pIdStr)
 	if err != nil {
 		detail.WriteError(w, errors.New("路径识别失败"))
@@ -26,5 +26,4 @@ func (*HTMLApi) PostDetail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	detail.WriteData(w, postRes)
-
 }
